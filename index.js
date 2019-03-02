@@ -113,7 +113,7 @@ app.get('/history/', async function (req, res) {
 	console.log("GET REQUEST HISTORY")
 
 	DB.connect()
-	DB.getData(`SELECT * from log inner join product on log.Product_ID = product.ID inner join data on data.ID = log.User_ID`).then(data => {
+	DB.getData(`SELECT * from log inner join product on log.Product_ID = product.ID inner join data on data.ID = log.User_ID order by log.ID`).then(data => {
 			res.json(data);
 		})
 	DB.disconnect()
