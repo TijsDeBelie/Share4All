@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		function getUserData() {
+			var id = $("#userid").val()
+			$.ajax({
+				type: "GET"
+				, url: `/user/${id}`
+				, dataType: 'json'
+				, cache: false
+			}).done(function (result) {
+				var out = "";
+				for (i = 0; i < result.length; i++) {
+					out += `<li>${result[i].UserName}</li><li>${result[i].UserId}</li>`
+				}
+				$("#result").html(out)
+				//$("#result").html(result[0].UserName);
+			}).fail(function (data, statusText, xhr) {})
+		}
+
+		function getProductData() {
+			var id = $("#productid").val()
+			$.ajax({
+				type: "GET"
+				, url: `/product_code/${id}`
+				, dataType: 'json'
+				, cache: false
+			}).done(function (result) {
+				var out = "";
+				for (i = 0; i < result.length; i++) {
+					out += `<li>${result[i].ProductName}</li><li>${result[i].ProductId}</li|<li>${result[i].Code}</li>`
+				}
+				$("#result").html(out)
+				//$("#result").html(result[0].UserName);
+			}).fail(function (data, statusText, xhr) {})
+		}
+		function getAllData() {
+
+			var id = $("#productid").val()
+			$.ajax({
+				type: "GET"
+				, url: `/product_all/`
+				, dataType: 'json'
+				, cache: false
+			}).done(function (result) {
+				var out = "";
+				for (i = 0; i < result.length; i++) {
+					out += `<li>${result[i].ProductName}</li><li>${result[i].ProductId}</li><li>${result[i].Code}</li>`
+				}
+				$("#all").html(out)
+				//$("#result").html(result[0].UserName);
+			}).fail(function (data, statusText, xhr) {})
+			
+		}
+		
+		function start(){
+			getAllData();
+			setInterval(getAllData, 500)
+		}
+	</script>
+</head>
+<html>
+
+<body> <span>USERID</span>
+	<input id="userid">
+	<button onClick="getUserData();">Load</button> <span>PRODUCTID</span>
+	<input id="productid">
+	<button onClick="getProductData();">Load</button>
+	<ul id="result"></ul>
+	<button onClick="start();">Load</button>
+	<ul id="all"></ul>
+</body>
+
+</html>
