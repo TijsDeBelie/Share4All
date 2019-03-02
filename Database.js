@@ -70,7 +70,8 @@ async function newTable(table) {
 }
 async function getData(sql) {
 	return new Promise(async function (resolve, reject) {
-		con.query(sql, async function (err, result) {
+		con.query(
+			, async function (err, result) {
 			if (err) reject(err)
 			resolve(result);
 			console.log(result)
