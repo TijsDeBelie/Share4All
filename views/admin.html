@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+		function getAllHistory() {
+			$.ajax({
+				type: "GET"
+				, url: `/history/`
+				, dataType: 'json'
+				, cache: false
+			}).done(function (result) {
+				var out = "";
+				for (i = 0; i < result.length; i++) {
+					if (result[i].Type == "IN") {
+						out += `<li>${result[i].UserName} heeft ${result[i].Hoeveelheid} X ${result[i].ProductName} in de locker met id ${result[i].Locker_ID} gestoken op ${result[i].Timestamp}</li>`
+					}
+					else {
+						out += `<li>${result[i].UserName} heeft ${result[i].Hoeveelheid} X ${result[i].ProductName} uit de locker met id ${result[i].Locker_ID} genomen op ${result[i].Timestamp}</li>`
+					}
+				}
+				$("#all").html(out)
+			}).fail(function (data, statusText, xhr) {})
+		}
+
+		function start() {
+			getAllHistory();
+			setInterval(getAllHistory, 1000)
+		}
+	</script>
+</head>
+<html>
+
+<body>
+	<button onClick="start();">Load</button>
+	<ul id="all"></ul>
+</body>
+
+</html>

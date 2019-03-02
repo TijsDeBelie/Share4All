@@ -40,6 +40,9 @@ app.use(allowCrossDomain);
 app.get('/', function (req, res) {
 	res.render('index')
 })
+app.get('/admin', function (req, res) {
+	res.render('admin')
+})
 app.post('/', async function (req, res) {
 	res.send('POST hello world')
 })
@@ -85,27 +88,56 @@ app.get('/product_code/:productcode', async function (req, res) {
 		DB.disconnect()
 	})
 	//POST REQUESTS
-app.post('/u_name/:username/u_id/:userid', async function (req, res) {
+app.post('/u_name/:username', async function (req, res) {
 	console.log("POST REQUEST USER")
 	var username = req.params.username
-	var userid = req.params.userid
 	var table = "data"
 	DB.connect()
-	DB.insert(`INSERT INTO ${table} (UserName, UserId) VALUES ('${username}', '${userid}')`)
+	DB.insert(`INSERT INTO ${table} (UserName) VALUES ('${username}')`)
 	DB.disconnect()
-	res.send(`${username}, ${userid}`)
+	res.send(`${username}`)
 })
-app.post('/p_code/:productcode/p_name/:productname/p_id/:productid', async function (req, res) {
+app.post('/p_code/:productcode/p_name/:productname', async function (req, res) {
 	console.log("POST REQUEST PRODUCT")
 	var productcode = req.params.productcode
 	var productname = req.params.productname
 	var productid = req.params.productid
 	var table = "product"
 	DB.connect()
-	DB.insert(`INSERT INTO ${table} (ProductId, ProductName, Code) VALUES ('${productid}', '${productname}', '${productcode}')`)
+	DB.insert(`INSERT INTO ${table} (ProductName, Code) VALUES ('${productname}', '${productcode}')`)
 	DB.disconnect()
-	res.send(`${productid}, ${productname}, ${productcode}`)
+	res.send(`${productname}, ${productcode}`)
 })
+
+app.get('/history/', async function (req, res) {
+	console.log("GET REQUEST HISTORY")
+
+	DB.connect()
+	DB.getData(`SELECT * from log inner join product on log.Product_ID = product.ID inner join data on data.ID = log.User_ID`).then(data => {
+			res.json(data);
+		})
+	DB.disconnect()
+
+})
+app.post('/h_Type/:type/h_locker/:locker/h_product/:product/hvl/:hoeveelheid/user/:user', async function (req, res) {
+	console.log("POST REQUEST PRODUCT")
+	var Type = req.params.type
+	var Locker = req.params.locker
+	var product = req.params.product
+	var hoeveelheid = req.params.hoeveelheid
+	var user = req.params.user
+	
+	var table = "log"
+	DB.connect()
+	DB.insert(`INSERT INTO ${table} (Type, Locker_ID, Product_ID, hoeveelheid, User_ID) VALUES ('${Type}', '${Locker}','${product}','${hoeveelheid}','${user}')`)
+	DB.disconnect()
+	res.send(`Success`)
+})
+
+
+
+
+
 app.listen(3000, () => {
 	console.log("Server running on port 3000");
 });

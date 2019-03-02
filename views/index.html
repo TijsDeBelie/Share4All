@@ -13,7 +13,7 @@
 			}).done(function (result) {
 				var out = "";
 				for (i = 0; i < result.length; i++) {
-					out += `<li>${result[i].UserName}</li><li>${result[i].UserId}</li>`
+					out += `<li>${result[i].UserName}</li>`
 				}
 				$("#result").html(out)
 				//$("#result").html(result[0].UserName);
@@ -30,7 +30,7 @@
 			}).done(function (result) {
 				var out = "";
 				for (i = 0; i < result.length; i++) {
-					out += `<li>${result[i].ProductName}</li><li>${result[i].ProductId}</li|<li>${result[i].Code}</li>`
+					out += `<li>${result[i].ProductName}</li><li>${result[i].Code}</li>`
 				}
 				$("#result").html(out)
 				//$("#result").html(result[0].UserName);
@@ -47,7 +47,7 @@
 			}).done(function (result) {
 				var out = "";
 				for (i = 0; i < result.length; i++) {
-					out += `<li>${result[i].ProductName}</li><li>${result[i].ProductId}</li><li>${result[i].Code}</li>`
+					out += `<li>${result[i].ProductName}</li><li>${result[i].Code}</li>`
 				}
 				$("#all").html(out)
 				//$("#result").html(result[0].UserName);
@@ -57,7 +57,7 @@
 		
 		function start(){
 			getAllData();
-			setInterval(getAllData, 500)
+			setInterval(getAllData, 1000)
 		}
 	</script>
 </head>
